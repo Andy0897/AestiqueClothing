@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="~{fragments/head}"></head>
+<body>
+<nav th:replace="~{fragments/navbar}"></nav>
+<main class="container mt-5" style="max-width: 600px;">
+    <form th:action="@{/submit}" method="post" th:object="${user}" class="shadow-sm p-4 rounded">
+        <h1 class="text-center mb-4">Регистрация</h1>
+        <div class="row g-4">
+            <div class="col-lg-6 col-md-12">
+                <label for="firstName" class="mb-1">Име</label>
+                <input type="text" th:field="*{firstName}" id="firstName" name="firstName" class="form-control"
+                       placeholder="Въведете име">
+                <div th:each="error : ${#fields.errors('firstName')}" th:text="${error}" class="alert alert-danger mt-2"
+                     role="alert"></div>
+            </div>
+
+            <div class="col-lg-6 col-md-12">
+                <label for="lastName" class="mb-1">Фамилия</label>
+                <input type="text" th:field="*{lastName}" id="lastName" name="lastName" class="form-control"
+                       placeholder="Въведете фамилия">
+                <div th:each="error : ${#fields.errors('lastName')}" th:text="${error}" class="alert alert-danger mt-2"
+                     role="alert"></div>
+            </div>
+
+            <div class="col-12">
+                <label for="username" class="mb-1">Потребителско име</label>
+                <input type="text" th:field="*{username}" id="username" name="username" class="form-control"
+                       placeholder="Въведете потребителско име">
+                <div th:each="error : ${#fields.errors('username')}" th:text="${error}" class="alert alert-danger mt-2"
+                     role="alert"></div>
+                <div th:if="${existsUserByUsername}" class="alert alert-danger mt-2" role="alert">Това потребителско име
+                    е заето
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label for="email" class="mb-1">Имейл</label>
+                <input type="email" th:field="*{email}" id="email" name="email" class="form-control"
+                       placeholder="Въведете имейл">
+                <small id="emailHelp" class="form-text text-muted">Никога няма да споделяме вашия имейл с никой
+                    друг.</small>
+                <div th:each="error : ${#fields.errors('email')}" th:text="${error}" class="alert alert-danger mt-2"
+                     role="alert"></div>
+                <div th:if="${existsUserByEmail}" class="alert alert-danger mt-2" role="alert">Този имейл вече е
+                    използван
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label for="password" class="mb-1">Парола</label>
+                <input type="password" th:field="*{password}" id="password" name="password" class="form-control"
+                       placeholder="Въведете парола">
+                <div th:each="error : ${#fields.errors('password')}" th:text="${error}" class="alert alert-danger mt-2"
+                     role="alert"></div>
+            </div>
+
+            <div class="col-12 form-check">
+                <input type="checkbox" th:field="*{agreeToTerms}" id="agreeToTerms" name="agreeToTerms"
+                       class="form-check-input">
+                <label for="agreeToTerms" class="form-check-label">
+                    Съгласен съм с условията за ползване и Aestique Clothing да използва личните ми данни, за да
+                    управлява личния ми профил, съгласно
+                    <a href="/policies/privacy" class="link-secondary text-decoration-none">Политиката за
+                        Поверителност</a>.
+                </label>
+                <div th:each="error : ${#fields.errors('agreeToTerms')}" th:text="${error}"
+                     class="alert alert-danger mt-2" role="alert"></div>
+            </div>
+
+            <div class="col-12">
+                <input type="submit" class="btn btn-dark mb-2 w-100" value="Регистрация"/>
+            </div>
+
+            <hr class="mb-2 border-secondary-subtle">
+
+            <div class="text-center">
+                <a href="/sign-in" class="link-secondary text-decoration-none">Вече имаш акаунт?</a>
+            </div>
+        </div>
+    </form>
+</main>
+<footer th:replace="~{fragments/footer}"></footer>
+</body>
+</html>
