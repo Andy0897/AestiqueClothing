@@ -47,7 +47,6 @@ public class Product {
     private String gender;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    @NotEmpty(message = "Полето е задължително")
     private List<ProductSize> sizes = new ArrayList<>();
 
     @ElementCollection
