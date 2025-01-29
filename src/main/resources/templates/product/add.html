@@ -9,39 +9,76 @@
 
         <div class="row g-4">
             <div class="col-12">
-                <label for="title" class="mb-1">Име на продукта</label>
+                <label for="title" class="mb-1">Заглавие</label>
                 <input type="text" th:field="*{title}" id="title" name="title" class="form-control"
-                       placeholder="Въведете име">
-                <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="text-danger mt-1"></div>
+                       placeholder="Въведете заглавие">
+                <div th:each="error : ${#fields.errors('title')}" th:text="${error}" class="alert alert-danger mt-2" role="alert"></div>
             </div>
 
             <div class="col-12">
                 <label for="description" class="mb-1">Описание</label>
                 <textarea th:field="*{description}" id="description" name="description" class="form-control"
                           placeholder="Въведете описание"></textarea>
-                <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-danger mt-1"></div>
+                <div th:each="error : ${#fields.errors('description')}" th:text="${error}" class="alert alert-danger mt-2" role="alert"></div>
+            </div>
+
+            <div class="col-lg-6 col-md-12">
+                <label for="brand" class="mb-1">Марка</label>
+                <select th:field="*{brand}" id="brand" name="brand" class="form-control">
+                    <option value="">Избери марка</option>
+                    <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.name}"></option>
+                </select>
+                <div th:each="error : ${#fields.errors('brand')}" th:text="${error}" class="alert alert-danger mt-2" role="alert"></div>
             </div>
 
             <div class="col-lg-6 col-md-12">
                 <label for="category" class="mb-1">Категория</label>
-                <select th:field="*{category}" id="category" name="category.id" class="form-control">
+                <select th:field="*{category}" id="category" name="category" class="form-control">
                     <option value="">Избери категория</option>
                     <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
                 </select>
-                <div th:if="${#fields.hasErrors('category')}" th:errors="*{category}" class="text-danger mt-1"></div>
+                <div th:each="error : ${#fields.errors('category')}" th:text="${error}" class="alert alert-danger mt-2" role="alert"></div>
+            </div>
+
+            <div class="col-lg-6 col-md-12">
+                <label for="material" class="mb-1">Материал</label>
+                <select th:field="*{material}" id="material" name="material" class="form-control">
+                    <option value="">Избери материал</option>
+                    <option th:each="material : ${materials}" th:value="${material}" th:text="${material}"></option>
+                </select>
+                <div th:each="error : ${#fields.errors('material')}" th:text="${error}" class="alert alert-danger mt-2" role="alert"></div>
+            </div>
+
+            <div class="col-lg-6 col-md-12">
+                <label for="color" class="mb-1">Цвят</label>
+                <select th:field="*{color}" id="color" name="color" class="form-control">
+                    <option value="">Избери цвят</option>
+                    <option th:each="color : ${colors}" th:value="${color}" th:text="${color}"></option>
+                </select>
+                <div th:each="error : ${#fields.errors('color')}" th:text="${error}" class="alert alert-danger mt-2" role="alert"></div>
+            </div>
+
+            <div class="col-lg-6 col-md-12">
+                <label for="gender" class="mb-1">Пол</label>
+                <select th:field="*{gender}" id="gender" name="gender" class="form-control">
+                    <option value="">Избери</option>
+                    <option value="Мъжки">Мъжки</option>
+                    <option value="Дамски">Дамски</option>
+                </select>
+                <div th:each="error : ${#fields.errors('gender')}" th:text="${error}" class="alert alert-danger mt-2" role="alert"></div>
             </div>
 
             <div class="col-12">
                 <h3 class="mb-2">Размери и наличности</h3>
-                <div id="sizes-container" class="mb-3">
-                </div>
+                <div id="sizes-container" class="mb-3"></div>
                 <button type="button" onclick="addSizeRow()" class="btn btn-dark">Добави размер</button>
                 <div th:if="${areSizesEmpty}" class="alert alert-danger mt-2" role="alert">
                     Полето е задължително
                 </div>
                 <div th:if="${wrongSizeDetails}" class="alert alert-danger mt-2" role="alert">
-                    Невалидни размири или наличности
+                    Невалидни размери или наличности
                 </div>
+                <div th:each="error : ${#fields.errors('sizes')}" th:text="${error}" class="alert alert-danger mt-2" role="alert"></div>
             </div>
 
             <div class="col-12">
@@ -55,15 +92,18 @@
                 <div th:if="${!areImagesSelected}" class="alert alert-danger mt-2" role="alert">
                     Полето е задължително
                 </div>
+                <div th:each="error : ${#fields.errors('images')}" th:text="${error}" class="alert alert-danger mt-2" role="alert"></div>
+
             </div>
 
             <div class="col-lg-6 col-md-12">
                 <label for="price" class="mb-1">Цена</label>
                 <input type="number" th:field="*{price}" id="price" name="price" class="form-control"
                        placeholder="Цена">
-                <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger mt-1"></div>
+                <div th:each="error : ${#fields.errors('price')}" th:text="${error}" class="alert alert-danger mt-2" role="alert"></div>
             </div>
 
+            <!-- Submit Button -->
             <div class="col-12">
                 <button type="submit" class="btn btn-dark w-100">Запази продукта</button>
             </div>
@@ -74,6 +114,30 @@
 <footer th:replace="~{fragments/footer}"></footer>
 
 <script>
+    const imagesInput = document.getElementById('images');
+    const mainImageOptions = document.getElementById('mainImageOptions');
+    const mainImageSection = document.getElementById('mainImageSection');
+
+    imagesInput.addEventListener('change', (event) => {
+        mainImageOptions.innerHTML = '';
+
+        if (event.target.files.length > 0) {
+            mainImageSection.style.display = 'block';
+        } else {
+            mainImageSection.style.display = 'none';
+        }
+
+        Array.from(event.target.files).forEach((file, index) => {
+            const label = document.createElement('label');
+            label.innerHTML = `
+                <input type="radio" name="mainImageIndex" value="${index}" ${index === 0 ? 'checked' : ''}>
+                ${file.name}
+            `;
+            mainImageOptions.appendChild(label);
+            mainImageOptions.appendChild(document.createElement('br'));
+        });
+    });
+
     function addSizeRow() {
         const sizeRow = document.createElement('div');
         sizeRow.innerHTML = `

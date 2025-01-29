@@ -1,7 +1,7 @@
 package com.example.AestiqueClothing.Product;
 
-import com.example.AestiqueClothing.Brand;
 import com.example.AestiqueClothing.Size.ProductSize;
+import com.example.AestiqueClothing.Brand.Brand;
 import com.example.AestiqueClothing.Category.Category;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
@@ -37,16 +37,16 @@ public class Product {
     @NotNull(message = "Полето е задължително")
     private Category category;
 
-    @NotNull(message = "Полето е задължително")
+    @NotEmpty(message = "Полето е задължително")
     private String material;
 
-    @NotNull(message = "Полето е задължително")
+    @NotEmpty(message = "Полето е задължително")
     private String color;
 
-    @NotNull(message = "Полето е задължително")
+    @NotEmpty(message = "Полето е задължително")
     private String gender;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductSize> sizes = new ArrayList<>();
 
     @ElementCollection
