@@ -13,7 +13,7 @@ public class ProductSize {
 
     private String size;
 
-    private int quantity;
+    private Integer quantity;
 
     @ManyToOne
     @JoinColumn(name = "product_id")

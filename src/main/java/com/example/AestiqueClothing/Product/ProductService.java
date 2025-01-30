@@ -71,11 +71,14 @@ public class ProductService {
         }
 
         productRepository.save(product);
-        return "redirect:/home";
+        return "redirect:/products";
     }
 
     private boolean checkIfSizesValid(List<ProductSize> productSizes) {
         boolean areValid = true;
+        if(productSizes.stream().anyMatch(productSize -> productSize.getQuantity() == null)) {
+
+        }
         if(productSizes.stream().anyMatch(productSize -> productSize.getSize().isEmpty())) {
             areValid = false;
         }

@@ -10,7 +10,7 @@
 
 <ul>
     <li th:each="product : ${products}">
-        <strong th:text="${product.name}"></strong>
+        <strong th:text="${product.title}"></strong>
         <ul>
             <li th:each="size : ${product.sizes}">
                 <span th:text="${size.size}"></span>: <span th:text="${size.quantity}"></span>
