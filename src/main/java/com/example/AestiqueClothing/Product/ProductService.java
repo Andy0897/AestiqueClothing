@@ -31,7 +31,7 @@ public class ProductService {
     public String submitProduct(List<String> sizes, List<Integer> quantities, MultipartFile[] images, Integer mainImageIndex, Product product, BindingResult bindingResult, Model model) {
         List<byte[]> imageList = new ArrayList<>();
         boolean nullImages = true;
-
+        System.out.println(sizes.size() + " " + quantities.size());
         try {
             for (MultipartFile file : images) {
                 if (!file.isEmpty()) {
@@ -40,7 +40,7 @@ public class ProductService {
                 }
             }
             product.setImages(imageList);
-            product.setMainImageIndex(mainImageIndex);
+            product.setMainImageIndex(mainImageIndex);;
         } catch (IOException e) {
             model.addAttribute("product", product);
             model.addAttribute("hasUploadError", true);
@@ -52,8 +52,13 @@ public class ProductService {
             size.setSize(sizes.get(i));
             size.setQuantity(quantities.get(i));
             size.setProduct(product);
+            System.out.println(size.getSize() + " " + size.getQuantity());
+            System.out.println(size);
             product.addSize(size);
+            System.out.println(product.getSizes().get(i));
+            System.out.println();
         }
+        System.out.println(product.getSizes().get(0));
         if(bindingResult.hasFieldErrors("title") || bindingResult.hasFieldErrors("description") ||
                 bindingResult.hasFieldErrors("brand") || bindingResult.hasFieldErrors("category") ||
                 bindingResult.hasFieldErrors("material") || bindingResult.hasFieldErrors("color") ||
@@ -75,16 +80,12 @@ public class ProductService {
     }
 
     private boolean checkIfSizesValid(List<ProductSize> productSizes) {
-        boolean areValid = true;
-        if(productSizes.stream().anyMatch(productSize -> productSize.getQuantity() == null)) {
-
-        }
-        if(productSizes.stream().anyMatch(productSize -> productSize.getSize().isEmpty())) {
-            areValid = false;
+        if(productSizes.stream().anyMatch(productSize -> productSize.getSize() == null || productSize.getQuantity() == null || productSize.getSize().isEmpty())) {
+            return false;
         }
         if(productSizes.stream().anyMatch(productSize -> productSize.getQuantity() < 0)) {
-            areValid = false;
+            return false;
         }
-        return areValid;
+        return true;
     }
 }

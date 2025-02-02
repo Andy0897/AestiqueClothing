@@ -2,6 +2,7 @@ package com.example.AestiqueClothing.Product;
 
 import com.example.AestiqueClothing.Brand.*;
 import com.example.AestiqueClothing.Category.*;
+import com.example.AestiqueClothing.ImageEncoder;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.*;
 import org.springframework.ui.Model;
@@ -11,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -31,7 +33,7 @@ public class ProductController {
     @GetMapping("/add")
     public String showAddProductForm(Model model) {
         model.addAttribute("product", new Product());
-        model.addAttribute("brands", brandRepository.findAll());
+        model.addAttribute("brands", ((List<Brand>)brandRepository.findAll()).stream().sorted(Comparator.comparing(brand -> brand.getName())));
         model.addAttribute("categories", categoryRepository.findAll());
         model.addAttribute("materials", Arrays.asList("Памук", "Полиестер", "Вълна", "Кожа", "Кашмир", "Лен", "Деним", "Коприна", "Еластан", "Акрил"));
         model.addAttribute("colors", Arrays.asList("Черен", "Бял", "Син", "Червен", "Зелен", "Жълт", "Кафяв", "Сив", "Оранжев", "Розов", "Лилав"));
@@ -60,6 +62,15 @@ public class ProductController {
     @GetMapping
     public String listProducts(Model model) {
         model.addAttribute("products", productRepository.findAll());
+        model.addAttribute("encoder", new ImageEncoder());
         return "product/show-all";
+    }
+
+    @GetMapping("/{id}")
+    public String showProductById(@PathVariable("id") Long id, Model model) {
+        Product product = productRepository.findById(id).get();
+        model.addAttribute("product", product);
+        model.addAttribute("encoder", new ImageEncoder());
+        return "product/show-single";
     }
 }

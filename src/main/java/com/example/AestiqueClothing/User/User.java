@@ -1,5 +1,6 @@
 package com.example.AestiqueClothing.User;
 
+import com.example.AestiqueClothing.Cart.Cart;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
@@ -8,7 +9,7 @@ import jakarta.validation.constraints.*;
 public class User {
     @Column(name = "user_id")
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotEmpty(message = "Полето е задължително")
@@ -40,8 +41,13 @@ public class User {
 
     @Column(columnDefinition = "VARCHAR(20) DEFAULT 'USER'")
     private String role;
+
     @Column(columnDefinition = "BIT DEFAULT 1")
     private boolean enable;
+
+    @OneToOne
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
 
     public Long getId() {
         return id;
@@ -113,5 +119,13 @@ public class User {
 
     public void setEnable(boolean enable) {
         this.enable = enable;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 }

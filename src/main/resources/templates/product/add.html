@@ -3,6 +3,7 @@
 <head th:replace="~{fragments/head}"></head>
 <body>
 <nav th:replace="~{fragments/navbar}"></nav>
+
 <main class="container mt-5" style="max-width: 800px;">
     <form th:action="@{/products/submit}" method="post" enctype="multipart/form-data" th:object="${product}" class="shadow-sm p-4 rounded">
         <h1 class="text-center mb-4">Добави продукт</h1>
@@ -96,7 +97,7 @@
             <div class="col-lg-6 col-md-12">
                 <label for="price" class="mb-1">Цена</label>
                 <input type="number" th:field="*{price}" id="price" name="price" class="form-control"
-                       placeholder="Цена">
+                       placeholder="Цена" step="any">
                 <div th:each="error : ${#fields.errors('price')}" th:text="${error}" class="alert alert-danger mt-2" role="alert"></div>
             </div>
 

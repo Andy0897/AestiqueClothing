@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class Brand {
     @Column(name = "brand_id")
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
