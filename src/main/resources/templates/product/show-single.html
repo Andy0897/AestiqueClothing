@@ -37,7 +37,7 @@
                             <h2><strong th:text="${product.title}" class="mt-1"></strong></h2>
                             <h5 class="text-muted mb-2" th:text="${product.brand.name}"></h5>
 
-                            <h2 class="text-danger fw-bold"
+                            <h2 class="text-dark fw-light"
                                 th:text="${#numbers.formatDecimal(product.price, 2, 2)} + ' лв.'"></h2>
 
                             <form th:action="@{/order-items/submit/{id}(id=${product.id})}" method="post">
