@@ -13,7 +13,8 @@
                      alt="Empty Cart" width="180" height="180" class="mb-3">
                 <h3 class="fw-bold">Вашата кошница е празна!</h3>
                 <p class="text-muted">
-                    Изглежда все още не сте направили своя избор. Разгледайте нашите продукти и открийте най-добрите за вас.
+                    Изглежда все още не сте направили своя избор. Разгледайте нашите продукти и открийте най-добрите за
+                    вас.
                 </p>
                 <a href="/products" class="btn btn-dark mt-3 px-4 py-2">Започни пазаруване</a>
             </div>
@@ -62,31 +63,19 @@
 
             <div class="col-lg-4 col-md-12">
                 <div class="card p-4">
-                    <h5 class="fw-bold">Обща цена</h5>
-                    <p class="text-muted">
-                        <del th:text="${'totalPriceBeforeDiscount'}"></del>
-                    </p>
+                    <p class="text-muted">Цена на артикулите: <span th:text="${#numbers.formatDecimal(totalPrice, 2, 2)}"></span> лв.</p>
+                    <p class="text-muted">Доставка и обслужване: 0 лв.</p>
+                    <h4 class="fw-bold">Общо: <span th:text="${#numbers.formatDecimal(totalPrice, 2, 2)}"></span> лв.</h4>
+                    <a href="/orders/checkout" class="btn btn-dark w-100 fw-bold mt-3">Продължи към плащане</a>
 
-                    <h5 class="text-danger fw-bold">Промоция: -<span th:text="${'totalDiscount'}"></span> лв.</h5>
-
-                    <h4 class="fw-bold">Общо: <span th:text="${'totalPriceAfterDiscount'}"></span> лв.</h4>
-
-                    <p class="text-muted">Доставка и обслужване: <span th:text="${'shippingCost'}"></span> лв.</p>
-
-                    <h3 class="fw-bold text-dark">Плащаш с ДДС: <span
-                            th:text="${'totalPriceAfterDiscount + shippingCost'}"></span> лв.</h3>
-
-                    <button class="btn btn-dark w-100 fw-bold mt-3">Продължи към плащане</button>
-
-                    <div class="d-flex justify-content-between mt-3">
-                        <i class="bi bi-credit-card fs-3"></i>
-                        <i class="bi bi-paypal fs-3"></i>
-                        <i class="bi bi-google fs-3"></i>
-                        <i class="bi bi-apple fs-3"></i>
+                    <div class="mt-3 border-top pt-3">
+                        <h5 class="fw-bold">Приемаме следните методи на плащане</h5>
+                        <div class="d-flex justify-content-center gap-3 mt-3">
+                            <img src="https://cdn.aboutstatic.com/file/562897eff981d3bae39b47470cc74638.png?quality=75&height=480&width=360" alt="MasterCard" class="border p-2" style="width: 75px; height: auto;">
+                            <img src="https://cdn.aboutstatic.com/file/63a5cdd59037df161a7bc20492ec83cb.png?quality=75&height=480&width=360" alt="VISA" class="border p-2" style="width: 75px; height: auto;">
+                            <img src="https://cdn.aboutstatic.com/file/153dfa6b847db02949b02b1931ea260e?quality=75&height=480&width=360" alt="Cash on Delivery" class="border p-2" style="width: 75px; height: auto;">
+                        </div>
                     </div>
-
-                    <p class="text-muted text-center mt-2">Ваучерите могат да се въведат при завършване на
-                        поръчката.</p>
                 </div>
             </div>
         </div>

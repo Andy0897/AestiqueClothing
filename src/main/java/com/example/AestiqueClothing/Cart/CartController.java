@@ -28,7 +28,9 @@ public class CartController {
     @GetMapping
     public String getShowCart(Model model, Principal principal) {
         User user = userRepository.getUserByUsername(principal.getName());
+        double totalPrice = user.getCart().getItems().stream().mapToDouble(OrderItem::getTotalPrice).sum();
         model.addAttribute("cart", user.getCart());
+        model.addAttribute("totalPrice", totalPrice);
         model.addAttribute("encoder", new ImageEncoder());
         return "cart/show";
     }

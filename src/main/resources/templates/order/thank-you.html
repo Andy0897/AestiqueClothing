@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="~{fragments/head}"></head>
+<body>
+<nav th:replace="~{fragments/navbar}"></nav>
+<main class="container text-center mt-5">
+    <h1 class="fw-bold">Благодарим Ви за поръчката!</h1>
+    <div class="mt-4">
+        <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png"
+             alt="Order Success" width="120" height="120" class="mb-3">
+        <h3 class="fw-bold">Вашата поръчка беше успешно направена!</h3>
+        <p class="text-muted">
+            Потвърждение беше изпратено на вашия имейл. Очаквайте информация за доставката скоро.
+        </p>
+        <a href="/products" class="btn btn-dark mt-3 px-4 py-2">Продължи с пазаруването</a>
+    </div>
+</main>
+<footer th:replace="~{fragments/footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="~{fragments/head}"></head>
+<body>
+<nav th:replace="~{fragments/navbar}"></nav>
+<main class="container mt-5" style="max-width: 600px;">
+    <form th:action="@{/orders/submit}" method="post" th:object="${order}" id="orderForm" class="shadow-sm p-4 rounded">
+        <h1 class="text-center mb-4">Завърши поръчка</h1>
+
+        <div class="row g-4">
+            <div class="col-12">
+                <label for="phoneNumber" class="mb-1">Телефонен номер</label>
+                <input type="text" th:field="*{phoneNumber}" id="phoneNumber" name="phoneNumber" class="form-control"
+                       placeholder="Въведете телефонен номер">
+                <div th:each="error : ${#fields.errors('phoneNumber')}" th:text="${error}" class="alert alert-danger mt-2" role="alert"></div>
+            </div>
+
+            <div class="col-lg-6 col-md-12">
+                <label for="city" class="mb-1">Населено място</label>
+                <input type="text" th:field="*{city}" id="city" name="city" class="form-control"
+                       placeholder="Въведете населено място">
+                <div th:each="error : ${#fields.errors('city')}" th:text="${error}" class="alert alert-danger mt-2" role="alert"></div>
+            </div>
+
+            <div class="col-lg-6 col-md-12">
+                <label for="postCode" class="mb-1">Пощенски код</label>
+                <input type="text" th:field="*{postCode}" id="postCode" name="postCode" class="form-control"
+                       placeholder="Въведете заглавие">
+                <div th:each="error : ${#fields.errors('postCode')}" th:text="${error}" class="alert alert-danger mt-2" role="alert"></div>
+            </div>
+
+            <div class="col-lg-6 col-md-12">
+                <label for="street" class="mb-1">Улица</label>
+                <input type="text" th:field="*{street}" id="street" name="street" class="form-control"
+                       placeholder="Въведете улица">
+                <div th:each="error : ${#fields.errors('street')}" th:text="${error}" class="alert alert-danger mt-2" role="alert"></div>
+            </div>
+
+            <div class="col-lg-6 col-md-12">
+                <label for="houseNumber" class="mb-1">Номер</label>
+                <input type="text" th:field="*{houseNumber}" id="houseNumber" name="houseNumber" class="form-control"
+                       placeholder="Въведете номер">
+                <div th:each="error : ${#fields.errors('houseNumber')}" th:text="${error}" class="alert alert-danger mt-2" role="alert"></div>
+            </div>
+
+            <div class="col-12">
+                <label for="paymentOption" class="mb-1">Опция за плащане</label>
+                <select th:field="*{paymentOption}" id="paymentOption" name="paymentOption" class="form-control" onchange="paymentMethodChange(this.value)">
+                    <option value="">Избери</option>
+                    <option value="Наложен платеж">Наложен платеж</option>
+                    <option value="Карта">Карта</option>
+                </select>
+                <div th:each="error : ${#fields.errors('paymentOption')}" th:text="${error}" class="alert alert-danger mt-2" role="alert"></div>
+            </div>
+
+            <input type="hidden" th:field="*{orderItems}">
+            <input type="hidden" th:field="*{orderStatus}">
+            <input type="hidden" th:field="*{user}">
+            <input type="hidden" th:field="*{totalPrice}">
+
+            <div id="card-form" class="col-12">
+                <div th:if="${paymentFailure}" class="alert alert-danger mt-2" role="alert">
+                    Възникна грешка при опит за плащане
+                </div>
+            </div>
+
+            <div class="col-12">
+                <button type="submit" class="btn btn-dark w-100">Поръчай</button>
+            </div>
+        </div>
+    </form>
+</main>
+<footer th:replace="~{fragments/footer}"></footer>
+
+<script>
+    function paymentMethodChange(value) {
+        if(value === 'Карта') {
+            const cardForm = document.createElement('div');
+            cardForm.innerHTML = `
+            <label class="form-label">Карта</label>
+                <div id="card-element" class="form-control"></div>
+                <div id="card-errors" class="text-danger mt-2"></div>
+
+                <input type="hidden" id="stripeToken" name="stripeToken">
+            `;
+            document.getElementById('card-form').appendChild(cardForm);
+
+            var stripe = Stripe("[[${stripePublicKey}]]");
+            var elements = stripe.elements();
+
+            var card = elements.create("card", { hidePostalCode: true });
+            card.mount("#card-element");
+
+            var form = document.getElementById("orderForm");
+
+            form.addEventListener("submit", function (event) {
+                event.preventDefault();
+
+                stripe.createToken(card).then(function (result) {
+                    if (result.error) {
+                        document.getElementById("card-errors").textContent = result.error.message;
+                    } else {
+                        document.getElementById("stripeToken").value = result.token.id;
+                        form.submit();
+                    }
+                });
+        });
+        }
+        else {
+            var div = document.getElementById('card-form');
+            while(div.firstChild) {
+                div.removeChild(div.firstChild);
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
