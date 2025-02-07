@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="~{fragments/head}"></head>
+<body>
+<nav th:replace="~{fragments/navbar}"></nav>
+
+<main class="container mt-5">
+    <h1 class="text-center mb-4">Всички поръчки</h1>
+
+    <table class="table table-striped shadow-sm p-4">
+        <thead class="table-dark">
+        <tr>
+            <th>№</th>
+            <th>Клиент</th>
+            <th>Телефон</th>
+            <th>Град</th>
+            <th>Обща цена</th>
+            <th>Статус</th>
+            <th>Дата</th>
+            <th>Детайли</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.id}"></td>
+            <td th:text="${order.user.username}"></td>
+            <td th:text="${order.phoneNumber}"></td>
+            <td th:text="${order.city}"></td>
+            <td th:text="${#numbers.formatDecimal(order.totalPrice, 2, 2)} + ' лв.'"></td>
+            <td>
+                    <span th:text="${order.orderStatus}" class="badge"
+                          th:classappend="${order.orderStatus == 'Доставено' ? 'bg-success' : 'bg-warning'}">
+                    </span>
+            </td>
+            <td th:text="${#temporals.format(order.orderDate, 'dd.MM.yyyy')}"></td>
+            <td>
+                <a th:href="@{/orders/details/{id}(id=${order.id})}" class="btn btn-dark btn-sm">Преглед</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+<footer th:replace="~{fragments/footer}"></footer>
+</body>
+</html>

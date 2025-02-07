@@ -12,16 +12,74 @@
                 <li class="nav-item">
                     <a class="nav-link text-light" href="/">Начало</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/products?gender=Мъжки">Мъже</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/products?gender=Дамски">Жени</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/about-us">За нас</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="/contacts">Контакти</a>
+                </li>
             </ul>
             <div class="d-flex align-items-center">
                 <div sec:authorize="isAnonymous" class="d-flex gap-2">
                     <button class="btn btn-outline-light" onclick="window.location.href='/sign-in';">Вход</button>
                     <button class="btn btn-light" onclick="window.location.href='/sign-up';">Регистрация</button>
                 </div>
+
+                <div sec:authorize="isAuthenticated()" class="d-flex align-items-center gap-2">
+                    <button class="btn btn-dark" onclick="window.location.href='/cart';">
+                        <img th:src="@{/cart-icon.jpg}" style="width: 25px; height: 25px;" alt="Cart Icon">
+                    </button>
+                    <div class="dropdown-center">
+                        <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img th:src="@{/profile-icon.jpg}" style="width: 25px; height: 25px;" alt="Profile Icon">
+                        </button>
+                        <ul class="dropdown-menu">
+                            <form th:action="@{/logout}" method="post" class="text-left">
+                                <li><button type="button" class="dropdown-item btn-dark" onclick="window.location.href='/orders/my-orders';">Моите поръчки</button></li>
+                                <button type="button" class="dropdown-item btn-dark" data-bs-toggle="modal" data-bs-target="#deleteAccount">
+                                    Изтрий акаунт
+                                </button>
+                                <li><button type="submit" class="dropdown-item btn-dark">Излез от профила</button></li>
+                            </form>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </nav>
+
+<div class="modal fade" id="deleteAccount" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form th:action="@{/submit-delete}" method="post">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 text-danger" id="exampleModalLabel">Сигурни ли сте, че искате да изтриете акаунта си?</h1>
+                </div>
+
+                <div class="modal-body">
+                    <p class="text-muted">
+                        Изтриването на акаунта е <strong>необратимо</strong>. Всички ваши лични данни, поръчки и запазени продукти ще бъдат <strong>загубени завинаги</strong>.
+                    </p>
+                    <p class="fw-bold">Това действие не може да бъде отменено.</p>
+                    <p>Ако сте сигурни, натиснете бутона <strong>"Изтрий"</strong>, за да продължите.</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Отказ</button>
+                    <button type="submit" class="btn btn-danger">Изтрий завинаги</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const dropdownToggle = document.getElementById('dropdownMenuLink');

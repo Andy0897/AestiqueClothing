@@ -58,4 +58,11 @@ public class OrderService {
         orderRepository.save(order);
         return "redirect:/cart";
     }
+
+    public String submitUpdateStatus(Long orderId, String status) {
+        Order order = orderRepository.findById(orderId).get();
+        order.setOrderStatus(status);
+        orderRepository.save(order);
+        return "redirect:/orders/details/" + orderId;
+    }
 }

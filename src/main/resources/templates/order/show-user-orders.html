@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"></head>
+<body>
+<nav th:replace="~{fragments/navbar}"></nav>
+
+<main class="container mt-5" style="max-width: 600px;">
+    <h1 class="text-center mb-4">Моите поръчки</h1>
+
+    <div th:if="${orders.empty}" class="text-center my-5">
+        <img src="https://cdn-icons-png.flaticon.com/512/102/102661.png" width="100" alt="No Orders">
+        <h3 class="fw-bold mt-3">Нямате направени поръчки</h3>
+        <p class="text-muted">Разгледайте нашите продукти и направете първата си поръчка.</p>
+        <a href="/products" class="btn btn-dark px-4 py-2 mt-2">Разгледай продукти</a>
+    </div>
+
+    <div th:if="${!orders.empty}" class="row">
+        <div th:each="order : ${orders}" class="col-12 mb-4">
+            <div class="card shadow-sm border-0 rounded">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title">Поръчка № <span th:text="${order.id}"></span></h5>
+                        <span class="badge"
+                              th:classappend="${order.orderStatus == 'Доставено' ? 'bg-success' : 'bg-warning'}"
+                              th:text="${order.orderStatus}">
+                        </span>
+                    </div>
+
+                    <p class="text-muted mb-2">Дата: <span th:text="${#temporals.format(order.orderDate, 'dd.MM.yyyy')}"></span></p>
+                    <p class="text-muted mb-2">Метод на плащане: <strong th:text="${order.paymentOption}"></strong></p>
+                    <p class="fw-bold">Общо: <span th:text="${#numbers.formatDecimal(order.totalPrice, 2, 2)} + ' лв.'"></span></p>
+
+                    <a th:href="@{/orders/details/{id}(id=${order.id})}" class="btn btn-dark w-100 mt-2">Виж детайли</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer}"></footer>
+</body>
+</html>

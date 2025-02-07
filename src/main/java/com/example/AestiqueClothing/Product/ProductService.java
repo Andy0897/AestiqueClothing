@@ -31,6 +31,7 @@ public class ProductService {
     public String submitProduct(List<String> sizes, List<Integer> quantities, MultipartFile[] images, Integer mainImageIndex, Product product, BindingResult bindingResult, Model model) {
         List<byte[]> imageList = new ArrayList<>();
         boolean nullImages = true;
+        boolean invalidSizes = false;
         System.out.println(sizes.size() + " " + quantities.size());
         try {
             for (MultipartFile file : images) {
@@ -48,29 +49,32 @@ public class ProductService {
         }
 
         for (int i = 0; i < sizes.size(); i++) {
-            ProductSize size = new ProductSize();
-            size.setSize(sizes.get(i));
-            size.setQuantity(quantities.get(i));
-            size.setProduct(product);
-            System.out.println(size.getSize() + " " + size.getQuantity());
-            System.out.println(size);
-            product.addSize(size);
-            System.out.println(product.getSizes().get(i));
-            System.out.println();
+            ProductSize productSize = new ProductSize();
+            productSize.setSize(sizes.get(i));
+            productSize.setQuantity(quantities.get(i));
+            productSize.setProduct(product);
+            if(checkIfSizeValid(productSize)){
+                product.addSize(productSize);
+                System.out.println("Valid");
+            }
+            else {
+                System.out.println("Invalid");
+                invalidSizes = true;
+                break;
+            }
         }
-        System.out.println(product.getSizes().get(0));
         if(bindingResult.hasFieldErrors("title") || bindingResult.hasFieldErrors("description") ||
                 bindingResult.hasFieldErrors("brand") || bindingResult.hasFieldErrors("category") ||
                 bindingResult.hasFieldErrors("material") || bindingResult.hasFieldErrors("color") ||
                 bindingResult.hasFieldErrors("gender") || bindingResult.hasFieldErrors("price") ||
-                !checkIfSizesValid(product.getSizes()) || nullImages) {
+                invalidSizes || nullImages) {
             model.addAttribute("product", product);
             model.addAttribute("brands", brandRepository.findAll());
             model.addAttribute("categories", categoryRepository.findAll());
             model.addAttribute("materials", Arrays.asList("Памук", "Полиестер", "Вълна", "Кожа", "Кашмир", "Лен", "Деним", "Коприна", "Еластан", "Акрил"));
             model.addAttribute("colors", Arrays.asList("Черен", "Бял", "Син", "Червен", "Зелен", "Жълт", "Кафяв", "Сив", "Оранжев", "Розов", "Лилав"));
             model.addAttribute("areImagesSelected", !nullImages);
-            model.addAttribute("wrongSizeDetails", !checkIfSizesValid(product.getSizes()));
+            model.addAttribute("wrongSizeDetails", invalidSizes);
             model.addAttribute("areSizesEmpty", product.getSizes().isEmpty());
             return "product/add";
         }
@@ -79,11 +83,8 @@ public class ProductService {
         return "redirect:/products";
     }
 
-    private boolean checkIfSizesValid(List<ProductSize> productSizes) {
-        if(productSizes.stream().anyMatch(productSize -> productSize.getSize() == null || productSize.getQuantity() == null || productSize.getSize().isEmpty())) {
-            return false;
-        }
-        if(productSizes.stream().anyMatch(productSize -> productSize.getQuantity() < 0)) {
+    private boolean checkIfSizeValid(ProductSize productSize) {
+        if(productSize.getSize() == null || productSize.getQuantity() == null || productSize.getSize().isEmpty() || productSize.getQuantity() < 0) {
             return false;
         }
         return true;

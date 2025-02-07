@@ -34,7 +34,7 @@ public class WebSecurityConfig {
                         .loginPage("/sign-in")
                         .usernameParameter("usernameOrEmail")
                         .passwordParameter("password")
-                        .defaultSuccessUrl("/home", true)
+                        .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
                 .exceptionHandling(exceptionHandling -> exceptionHandling

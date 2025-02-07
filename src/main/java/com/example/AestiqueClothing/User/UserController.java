@@ -41,11 +41,9 @@ public class UserController {
         return userService.submitUser(user, bindingResult, model);
     }
 
-    @GetMapping("/profile")
-    public String getShowProfile(Principal principal, Model model) {
-        User user = userRepository.getUserByUsername(principal.getName());
-        model.addAttribute("user", user);
-        return "profile";
+    @PostMapping("/submit-delete")
+    public String getSubmitDeleteProfile(Principal principal) {
+        return userService.submitDeleteUser(principal);
     }
 
     @GetMapping("/access-denied")

@@ -11,6 +11,7 @@ import jakarta.validation.constraints.Size;
 
 import java.util.*;
 
+
 @Entity
 @Table(name = "products")
 public class Product {
