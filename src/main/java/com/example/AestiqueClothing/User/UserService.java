@@ -2,6 +2,8 @@ package com.example.AestiqueClothing.User;
 
 import com.example.AestiqueClothing.Cart.Cart;
 import com.example.AestiqueClothing.Cart.CartRepository;
+import com.example.AestiqueClothing.Order.Order;
+import com.example.AestiqueClothing.Order.OrderRepository;
 import com.example.AestiqueClothing.OrderItem.OrderItem;
 import com.example.AestiqueClothing.OrderItem.OrderItemRepository;
 import com.example.AestiqueClothing.Product.Product;
@@ -25,13 +27,15 @@ UserService {
     private CartRepository cartRepository;
     private OrderItemRepository orderItemRepository;
     private ProductSizeRepository productSizeRepository;
+    private OrderRepository orderRepository;
 
-    public UserService(BCryptPasswordEncoder encoder, UserRepository userRepository, CartRepository cartRepository, OrderItemRepository orderItemRepository, ProductSizeRepository productSizeRepository) {
+    public UserService(BCryptPasswordEncoder encoder, UserRepository userRepository, CartRepository cartRepository, OrderItemRepository orderItemRepository, ProductSizeRepository productSizeRepository, OrderRepository orderRepository) {
         this.encoder = encoder;
         this.userRepository = userRepository;
         this.cartRepository = cartRepository;
         this.orderItemRepository = orderItemRepository;
         this.productSizeRepository = productSizeRepository;
+        this.orderRepository = orderRepository;
     }
 
     public String submitUser(User user, BindingResult bindingResult, Model model) {
@@ -56,10 +60,15 @@ UserService {
     @Transactional
     public String submitDeleteUser(Principal principal) {
         User user = userRepository.getUserByUsername(principal.getName());
+        Cart cart = user.getCart();
 
-        if (user.getCart() != null && !user.getCart().getItems().isEmpty()) {
-            for (OrderItem orderItem : user.getCart().getItems()) {
+        System.out.println("Delete Cart: ");
+
+        if (cart != null && !cart.getItems().isEmpty()) {
+            for (OrderItem orderItem : cart.getItems()) {
+                System.out.println(orderItem != null);
                 Product product = orderItem.getProduct();
+
                 ProductSize productSize = ((List<ProductSize>)productSizeRepository.findAll()).stream()
                         .filter(size -> size.getProduct().getId().equals(product.getId())
                                 && size.getId().equals(orderItem.getProductSize().getId()))
@@ -71,11 +80,23 @@ UserService {
                     productSizeRepository.save(productSize);
                 }
             }
+            orderItemRepository.deleteAll(cart.getItems());
 
-            orderItemRepository.deleteAll(user.getCart().getItems());
+            user.setCart(null);
+            userRepository.save(user);
 
+            cartRepository.delete(cart);
+        }
 
-            cartRepository.delete(user.getCart());
+        if(!orderRepository.findAllByUser(user).isEmpty()) {
+            List<Order> userOrders = orderRepository.findAllByUser(user);
+            for (Order order : userOrders) {
+                System.out.println(order.getOrderItems().stream().anyMatch(Objects::isNull));
+                orderItemRepository.deleteAll(order.getOrderItems());
+                order.setOrderItems(null);
+                orderRepository.save(order);
+            }
+            orderRepository.deleteAll(userOrders);
         }
 
         userRepository.delete(user);

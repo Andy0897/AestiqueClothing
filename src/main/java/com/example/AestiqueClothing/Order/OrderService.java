@@ -56,7 +56,7 @@ public class OrderService {
 
         cartRepository.save(cart);
         orderRepository.save(order);
-        return "redirect:/cart";
+        return "redirect:/orders/thank-you";
     }
 
     public String submitUpdateStatus(Long orderId, String status) {
