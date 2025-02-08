@@ -27,6 +27,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/", "/home", "/about-us", "/contacts", "/images/**", "/access-denied", "/not-found", "/policies/**", "/images/").permitAll()
                         .requestMatchers("/sign-in", "/sign-up", "/submit").anonymous()
+                        .requestMatchers("/products/add", "/products/submit", "/orders", "/orders/update-status/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form

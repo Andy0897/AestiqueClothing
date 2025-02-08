@@ -12,31 +12,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message = "Полето е задължително")
-    @Size(min = 2, message = "Името трябва да съдържа поне 2 символа")
-    @Size(max = 20, message = "Името не трябва да надвишава 20 символа")
     private String firstName;
 
-    @NotEmpty(message = "Полето е задължително")
-    @Size(min = 2, message = "Фамилията трябва да съдържа поне 2 символа")
-    @Size(max = 20, message = "Фамилията не трябва да надвишава 20 символа")
     private String lastName;
 
-    @NotEmpty(message = "Полето е задължително")
-    @Size(min = 6, message = "Потребителското име трябва да съдържа поне 6 символа")
-    @Size(max = 14, message = "Потребителското име не трябва да надвишава 14 символа")
     private String username;
 
-    @NotEmpty(message = "Полето е задължително")
-    @Size(min = 5, message = "Имейлът трябва да съдържа поне 5 символа")
     private String email;
 
-    @NotEmpty(message = "Полето е задължително")
-    @Size(min = 8, message = "Паролата трябва да съдържа поне 8 символа")
-    @Size(max = 1000, message = "Паролата не трябва да надвишава 14 символа")
     private String password;
 
-    @AssertTrue(message = "Трябва да се съгласите с условията за ползване")
     private Boolean agreeToTerms;
 
     @Column(columnDefinition = "VARCHAR(20) DEFAULT 'USER'")

@@ -22,8 +22,6 @@ public class OrderItemController {
 
     @PostMapping("/submit/{productId}")
     public String getSubmitOrderItem(@PathVariable("productId") Long productId, @RequestParam("size") Long productSizeId, Model model, Principal principal) {
-        System.out.println(productId);
-        System.out.println(productSizeId);
         return orderItemService.submitOrderItem(productId, productSizeId, model, principal);
     }
 }

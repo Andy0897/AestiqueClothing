@@ -59,6 +59,8 @@ public class Product {
     @Min(value = 1, message = "Цената трябва да бъде поне 1 лв.")
     private double price;
 
+    private int popularity;
+
     public Long getId() {
         return id;
     }
@@ -153,6 +155,14 @@ public class Product {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public int getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(int popularity) {
+        this.popularity = popularity;
     }
 
     public void addSize(ProductSize size) {

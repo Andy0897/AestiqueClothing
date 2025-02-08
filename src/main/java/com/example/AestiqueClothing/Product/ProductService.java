@@ -78,9 +78,17 @@ public class ProductService {
             model.addAttribute("areSizesEmpty", product.getSizes().isEmpty());
             return "product/add";
         }
+        product.setPopularity(1);
 
         productRepository.save(product);
         return "redirect:/products";
+    }
+
+    public String submitIncreasePopularity(Long productId) {
+        Product product = productRepository.findById(productId).get();
+        product.setPopularity(product.getPopularity() + 1);
+        productRepository.save(product);
+        return "redirect:/products/" + productId;
     }
 
     private boolean checkIfSizeValid(ProductSize productSize) {

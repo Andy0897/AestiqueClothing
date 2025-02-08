@@ -65,7 +65,7 @@
     <div class="row g-4" th:if="${!products.empty}">
         <div th:each="product : ${products}" class="col-lg-4 col-md-6 col-sm-12">
             <div class="card card-animation border-0 shadow-sm h-100">
-                <form th:action="@{/products/{id}(id=${product.id})}" method="get">
+                <form th:action="@{/products/submit-increase-popularity/{id}(id=${product.id})}" method="post">
                     <button type="submit" class="btn p-0 w-100 h-100" style="border: none; text-align: left;">
 
                         <div class="card-img-top position-relative"

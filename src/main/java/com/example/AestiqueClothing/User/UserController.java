@@ -3,11 +3,17 @@ package com.example.AestiqueClothing.User;
 import com.example.AestiqueClothing.ImageEncoder;
 import com.example.AestiqueClothing.Product.Product;
 import com.example.AestiqueClothing.Product.ProductRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
@@ -42,20 +48,23 @@ public class UserController {
     }
 
     @GetMapping("/sign-in")
-    public String getSignIn() {
+    public String getSignIn(Principal principal) {
+        if (principal != null) {
+            return "redirect:/access-denied";
+        }
         return "sign-in";
     }
 
     @GetMapping("/sign-up")
     public String getSignUp(Model model) {
-        User user = new User();
-        model.addAttribute("user", user);
+        UserDTO userDTO = new UserDTO();
+        model.addAttribute("userDTO", userDTO);
         return "sign-up";
     }
 
     @PostMapping("/submit")
-    public String submitUser(@Valid User user, BindingResult bindingResult, Model model) {
-        return userService.submitUser(user, bindingResult, model);
+    public String submitUser(@ModelAttribute @Valid UserDTO userDTO, BindingResult bindingResult, Model model) {
+        return userService.submitUser(userDTO, bindingResult, model);
     }
 
     @PostMapping("/submit-delete")
@@ -66,5 +75,15 @@ public class UserController {
     @GetMapping("/access-denied")
     public String getAccessDenied() {
         return "accessDenied";
+    }
+
+    @GetMapping("/logout")
+    public String fetchSignoutSite(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+
+        return "redirect:/sign-in?logout";
     }
 }

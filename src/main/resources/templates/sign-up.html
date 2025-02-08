@@ -4,7 +4,7 @@
 <body>
 <nav th:replace="~{fragments/navbar}"></nav>
 <main class="container mt-5" style="max-width: 600px;">
-    <form th:action="@{/submit}" method="post" th:object="${user}" class="shadow-sm p-4 rounded">
+    <form th:action="@{/submit}" method="post" th:object="${userDTO}" class="shadow-sm p-4 rounded">
         <h1 class="text-center mb-4">Регистрация</h1>
         <div class="row g-4">
             <div class="col-lg-6 col-md-12">
