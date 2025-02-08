@@ -1,5 +1,6 @@
 package com.example.AestiqueClothing.Order;
 
+import com.example.AestiqueClothing.Encryption.EncryptDecryptConverter;
 import com.example.AestiqueClothing.OrderItem.OrderItem;
 import com.example.AestiqueClothing.User.User;
 import jakarta.persistence.*;
@@ -18,19 +19,24 @@ public class Order {
     @Column(name = "order_id")
     private Long id;
 
+    @Convert(converter = EncryptDecryptConverter.class)
     @Pattern(regexp = "^(\\+359|0)8[7-9]\\d{7}$", message = "Въведете валиден български телефонен номер")
     private String phoneNumber;
 
+    @Convert(converter = EncryptDecryptConverter.class)
     @NotEmpty(message = "Градът е задължителен")
     private String city;
 
+    @Convert(converter = EncryptDecryptConverter.class)
     @NotEmpty(message = "Полето е задължително")
     @Pattern(regexp = "\\d{4}", message = "Пощенският код трябва да бъде 4 цифри")
     private String postCode;
 
+    @Convert(converter = EncryptDecryptConverter.class)
     @NotEmpty(message = "Полето е задължително")
     private String street;
 
+    @Convert(converter = EncryptDecryptConverter.class)
     @NotEmpty(message = "Полето е задължително")
     @Pattern(regexp = "\\d{1,3}[A-Za-z]?", message = "Номерът на къщата трябва да бъде 1-3 цифри, може да има буква (напр. 15A, 103B)")
     private String houseNumber;

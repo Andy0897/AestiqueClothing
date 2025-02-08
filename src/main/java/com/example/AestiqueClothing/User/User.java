@@ -1,6 +1,7 @@
 package com.example.AestiqueClothing.User;
 
 import com.example.AestiqueClothing.Cart.Cart;
+import com.example.AestiqueClothing.Encryption.EncryptDecryptConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
@@ -12,12 +13,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Convert(converter = EncryptDecryptConverter.class)
     private String firstName;
 
+    @Convert(converter = EncryptDecryptConverter.class)
     private String lastName;
 
+    @Convert(converter = EncryptDecryptConverter.class)
     private String username;
 
+    @Convert(converter = EncryptDecryptConverter.class)
     private String email;
 
     private String password;

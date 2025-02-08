@@ -1,9 +1,11 @@
-<nav class="navbar navbar-expand-lg bg-dark" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+<nav class="navbar navbar-expand-lg bg-dark" xmlns:sec="http://www.w3.org/1999/xhtml"
+     xmlns:th="http://www.w3.org/1999/xhtml">
     <div class="container-fluid" style="max-width: 1000px;">
         <a class="navbar-brand" href="/">
             <h2 class="mr-4 text-light" style="font-weight: bold;">AC</h2>
         </a>
-        <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -26,20 +28,48 @@
                 </div>
 
                 <div sec:authorize="isAuthenticated()" class="d-flex align-items-center gap-2">
-                    <button class="btn btn-dark" onclick="window.location.href='/cart';">
-                        <img th:src="@{/images/cart-icon.jpg}" style="width: 25px; height: 25px;" alt="Cart Icon">
-                    </button>
-                    <div class="dropdown-center">
-                        <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img th:src="@{/images/profile-icon.jpg}" style="width: 25px; height: 25px;" alt="Profile Icon">
+                    <div class="dropdown-center" sec:authorize="hasAuthority('ADMIN')">
+                        <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                            <img src="/images/admin-icon.png" style="width: 25px; height: 25px;" alt="Admin Icon">
                         </button>
                         <ul class="dropdown-menu">
-                            <form th:action="@{/logout}" method="post" class="text-left">
-                                <li><button type="button" class="dropdown-item btn-dark" onclick="window.location.href='/orders/my-orders';">Моите поръчки</button></li>
-                                <button type="button" class="dropdown-item btn-dark" data-bs-toggle="modal" data-bs-target="#deleteAccount">
-                                    Изтрий акаунт
+                            <li>
+                                <button type="button" class="dropdown-item btn-dark"
+                                        onclick="window.location.href='/products/add';">Добави продукт
                                 </button>
-                                <li><button type="submit" class="dropdown-item btn-dark">Излез от профила</button></li>
+                            </li>
+                            <li>
+                                <button type="button" class="dropdown-item btn-dark"
+                                        onclick="window.location.href='/orders';">Прегледай поръчки
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                    <button class="btn btn-dark" onclick="window.location.href='/cart';">
+                        <img src="/images/cart-icon.jpg" style="width: 25px; height: 25px;" alt="Cart Icon">
+                    </button>
+                    <div class="dropdown-center">
+                        <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                            <img src="/images/profile-icon.jpg" style="width: 25px; height: 25px;"
+                                 alt="Profile Icon">
+                        </button>
+                        <ul class="dropdown-menu">
+                                <li>
+                                    <button type="button" class="dropdown-item btn-dark"
+                                            onclick="window.location.href='/orders/my-orders';">Моите поръчки
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" class="dropdown-item btn-dark" data-bs-toggle="modal"
+                                            data-bs-target="#deleteAccount">Изтрий акаунт
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" class="dropdown-item btn-dark"
+                                            onclick="window.location.href='/logout';">Излез от профила</button>
+                                </li>
                             </form>
                         </ul>
                     </div>
@@ -54,12 +84,14 @@
         <div class="modal-content">
             <form th:action="@{/submit-delete}" method="post">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5 text-danger" id="exampleModalLabel">Сигурни ли сте, че искате да изтриете акаунта си?</h1>
+                    <h1 class="modal-title fs-5 text-danger" id="exampleModalLabel">Сигурни ли сте, че искате да
+                        изтриете акаунта си?</h1>
                 </div>
 
                 <div class="modal-body">
                     <p class="text-muted">
-                        Изтриването на акаунта е <strong>необратимо</strong>. Всички ваши лични данни, поръчки и запазени продукти ще бъдат <strong>загубени завинаги</strong>.
+                        Изтриването на акаунта е <strong>необратимо</strong>. Всички ваши лични данни, поръчки и
+                        запазени продукти ще бъдат <strong>загубени завинаги</strong>.
                     </p>
                     <p class="fw-bold">Това действие не може да бъде отменено.</p>
                     <p>Ако сте сигурни, натиснете бутона <strong>"Изтрий"</strong>, за да продължите.</p>
