@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="">
+<head th:replace="~{fragments/head}"></head>
+<body>
+<nav th:replace="~{fragments/navbar}"></nav>
+<main class="container my-5" style="max-width: 1000px;">
+    <h1 class="text-center mb-4">Често задавани въпроси (FAQ)</h1>
+
+    <section class="mb-4">
+        <h2>I. Поръчки</h2>
+        <div class="ms-3 p-3 bg-light rounded shadow-sm">
+            <h4 class="fw-semibold">Как да направя поръчка?</h4>
+            <p>
+                За да направите поръчка в <strong>Aestique Clothing</strong>, просто изберете желания продукт, добавете го в количката и следвайте инструкциите за завършване на поръчката.
+            </p>
+
+            <h4 class="fw-semibold">Трябва ли да имам регистрация, за да поръчам?</h4>
+            <p>
+                Не, можете да направите поръчка като гост. Въпреки това, препоръчваме създаването на акаунт, за да следите историята на поръчките си и да получавате специални оферти.
+            </p>
+
+            <h4 class="fw-semibold">Мога ли да променя или анулирам поръчката си след като я направя?</h4>
+            <p>
+                Ако поръчката Ви все още не е изпратена, можете да я промените или анулирате, като се свържете с нас на
+                <a href="mailto:help@aestique.com" class="text-dark text-decoration-none">help@aestique.com</a>.
+            </p>
+        </div>
+    </section>
+
+    <section class="mb-4">
+        <h2>II. Доставка</h2>
+        <div class="ms-3 p-3 bg-light rounded shadow-sm">
+            <h4 class="fw-semibold">Какви са опциите за доставка?</h4>
+            <p>
+                Предлагаме стандартна доставка чрез куриерски фирми, като можете да изберете доставка до адрес или офис на куриер.
+            </p>
+
+            <h4 class="fw-semibold">Колко време отнема доставката?</h4>
+            <p>
+                Доставката обикновено отнема между 2-5 работни дни, в зависимост от населеното място.
+            </p>
+
+            <h4 class="fw-semibold">Как мога да проследя поръчката си?</h4>
+            <p>
+                След изпращане на поръчката ще получите имейл с номер за проследяване, който можете да използвате на сайта на куриерската фирма.
+            </p>
+        </div>
+    </section>
+
+    <section class="mb-4">
+        <h2>III. Плащане</h2>
+        <div class="ms-3 p-3 bg-light rounded shadow-sm">
+            <h4 class="fw-semibold">Какви методи на плащане приемате?</h4>
+            <p>
+                Приемаме плащания чрез кредитна/дебитна карта, наложен платеж и банков превод.
+            </p>
+
+            <h4 class="fw-semibold">Безопасно ли е плащането с карта?</h4>
+            <p>
+                Да, използваме сигурни платежни системи, които криптират данните Ви и гарантират сигурността на всяка транзакция.
+            </p>
+        </div>
+    </section>
+
+    <section class="mb-4">
+        <h2>IV. Връщане и рекламации</h2>
+        <div class="ms-3 p-3 bg-light rounded shadow-sm">
+            <h4 class="fw-semibold">Как мога да върна продукт?</h4>
+            <p>
+                Можете да върнете продукт в рамките на 14 дни, ако той отговаря на нашите
+                <a href="/policies/return-policy" class="text-dark text-decoration-none">условия за връщане</a>.
+            </p>
+
+            <h4 class="fw-semibold">Кога ще получа възстановяване на сумата?</h4>
+            <p>
+                Възстановяването на суми обикновено отнема до 14 работни дни след получаване на върнатия продукт.
+            </p>
+
+            <h4 class="fw-semibold">Какво да направя, ако получа дефектен продукт?</h4>
+            <p>
+                Ако получите дефектен продукт, моля, свържете се с нас в рамките на 48 часа, като изпратите снимка и описание на проблема на
+                <a href="mailto:help@aestique.com" class="text-dark text-decoration-none">help@aestique.com</a>.
+            </p>
+        </div>
+    </section>
+
+    <section class="mb-4">
+        <h2>V. Продукти и наличност</h2>
+        <div class="ms-3 p-3 bg-light rounded shadow-sm">
+            <h4 class="fw-semibold">Как да разбера дали даден продукт е наличен?</h4>
+            <p>
+                Наличността на продуктите е посочена на продуктовата страница. Ако даден продукт не е наличен, можете да се абонирате за известие при ново зареждане.
+            </p>
+
+            <h4 class="fw-semibold">Имате ли физически магазин?</h4>
+            <p>
+                В момента предлагаме нашите продукти само онлайн на
+                <a href="/home" class="text-dark text-decoration-none">www.aestique.com</a>.
+            </p>
+        </div>
+    </section>
+
+    <section class="mb-4">
+        <h2>VI. Отстъпки и промоции</h2>
+        <div class="ms-3 p-3 bg-light rounded shadow-sm">
+            <h4 class="fw-semibold">Как мога да получа отстъпка?</h4>
+            <p>
+                Предлагаме различни промоции и отстъпки. Можете да се запишете за нашия бюлетин, за да получавате специални оферти.
+            </p>
+
+            <h4 class="fw-semibold">Как да използвам промо код?</h4>
+            <p>
+                Въведете промо кода си в съответното поле при завършване на поръчката. Отстъпката ще бъде приложена автоматично.
+            </p>
+        </div>
+    </section>
+
+    <section class="mb-4">
+        <h2>VII. Контакти</h2>
+        <div class="ms-3 p-3 bg-light rounded shadow-sm">
+            <p>Ако не намирате отговора на Вашия въпрос, можете да се свържете с нас:</p>
+            <ul>
+                <li><strong>Имейл:</strong>
+                    <a href="mailto:help@aestique.com" class="text-dark text-decoration-none">help@aestique.com</a>
+                </li>
+                <li><strong>Телефон:</strong> +359 89 291 8880</li>
+                <li><strong>Работно време:</strong> Понеделник - Петък, 09:00 - 18:00</li>
+            </ul>
+        </div>
+    </section>
+</main>
+<footer th:replace="~{fragments/footer}"></footer>
+</body>
+</html>

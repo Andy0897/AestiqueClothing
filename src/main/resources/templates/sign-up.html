@@ -59,11 +59,13 @@
                 <input type="checkbox" th:field="*{agreeToTerms}" id="agreeToTerms" name="agreeToTerms"
                        class="form-check-input">
                 <label for="agreeToTerms" class="form-check-label">
-                    Съгласен съм с условията за ползване и Aestique Clothing да използва личните ми данни, за да
-                    управлява личния ми профил, съгласно
-                    <a href="/policies/privacy" class="link-secondary text-decoration-none">Политиката за
-                        Поверителност</a>.
+                    Съгласен/на съм с
+                    <a href="/policies/terms-conditions" class="text-secondary text-decoration-none">Общите условия за ползване</a>
+                    и давам съгласие <strong>Aestique Clothing</strong> да обработва личните ми данни за управление на профила ми,
+                    съгласно
+                    <a href="/policies/privacy-policy" class="text-secondary text-decoration-none">Политиката за поверителност</a>.
                 </label>
+
                 <div th:each="error : ${#fields.errors('agreeToTerms')}" th:text="${error}"
                      class="alert alert-danger mt-2" role="alert"></div>
             </div>
