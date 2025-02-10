@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="~{fragments/head}"></head>
 <body>
 <nav th:replace="~{fragments/navbar}"></nav>
@@ -32,6 +32,11 @@
 
             <div class="col-lg-4 col-md-12">
                 <div class="container">
+
+                    <button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-dark w-100 mb-1 mt-1" data-bs-toggle="modal" data-bs-target="#updateSizesModal">
+                        Добави количество
+                    </button>
+
                     <div class="card w-100">
                         <div class="card-header">
                             <h2><strong th:text="${product.title}" class="mt-1"></strong></h2>
@@ -78,6 +83,35 @@
                         </ul>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="updateSizesModal" tabindex="-1" aria-labelledby="updateSizesModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateSizesModalLabel">Update Product Sizes</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form th:action="@{/products/submit-update-quantities}" method="post">
+                    <div class="modal-body">
+                        <input type="hidden" name="productId" th:value="${product.id}" />
+
+                        <div class="row mb-2" th:each="productSize, iterStat : ${product.sizes}">
+                            <input type="hidden" name="sizesId" th:value="${productSize.id}" />
+
+                            <div class="col-lg-6 col-md-12">
+                                <label th:for="'size-' + ${iterStat.index}" th:text="${productSize.size}"></label>
+                                <input type="number" name="quantities" placeholder="Количество" class="form-control" min="0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-dark">Добави</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

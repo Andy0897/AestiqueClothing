@@ -85,12 +85,12 @@ public class ProductController {
 
     @GetMapping("/bestsellers")
     public String getShowPopularProducts(@RequestParam(value = "brand", required = false) Long brandId,
-                                     @RequestParam(value = "category", required = false) Long categoryId,
-                                     @RequestParam(value = "material", required = false) String material,
-                                     @RequestParam(value = "color", required = false) String color,
-                                     @RequestParam(value = "minPrice", required = false) Integer minPrice,
-                                     @RequestParam(value = "maxPrice", required = false) Integer maxPrice,
-                                     @RequestParam(value = "gender", required = false) String gender, Model model) {
+                                         @RequestParam(value = "category", required = false) Long categoryId,
+                                         @RequestParam(value = "material", required = false) String material,
+                                         @RequestParam(value = "color", required = false) String color,
+                                         @RequestParam(value = "minPrice", required = false) Integer minPrice,
+                                         @RequestParam(value = "maxPrice", required = false) Integer maxPrice,
+                                         @RequestParam(value = "gender", required = false) String gender, Model model) {
         List<Product> products = (List<Product>) productRepository.findAll();
         products.sort(Comparator.comparing(Product::getPopularity));
         Collections.reverse(products);
@@ -128,4 +128,22 @@ public class ProductController {
     public String getSubmitIncreasePopularity(@PathVariable("productId") Long productId) {
         return productService.submitIncreasePopularity(productId);
     }
+
+    @PostMapping("/submit-update-quantities")
+    public String updateProductSizes(@RequestParam Long productId, @RequestParam("sizesId") List<Long> sizesId, @RequestParam("quantities") List<Integer> quantities) {
+        Product product = productRepository.findById(productId).get();
+
+        for (int i = 0; i < sizesId.size(); i++) {
+            if(quantities.get(i) == null) {
+                continue;
+            }
+            if(quantities.get(i) < 0) {
+                return "redirect:/products/" + productId;
+            }
+            productService.updateSizeQuantity(product, sizesId.get(i), quantities.get(i));
+        }
+
+        return "redirect:/products/" + productId;
+    }
+
 }

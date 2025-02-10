@@ -3,6 +3,7 @@ package com.example.AestiqueClothing.Product;
 import com.example.AestiqueClothing.Brand.BrandRepository;
 import com.example.AestiqueClothing.Category.CategoryRepository;
 import com.example.AestiqueClothing.Size.ProductSize;
+import com.example.AestiqueClothing.Size.ProductSizeRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
@@ -20,11 +21,13 @@ public class ProductService {
     private ProductRepository productRepository;
     private BrandRepository brandRepository;
     private CategoryRepository categoryRepository;
+    private ProductSizeRepository productSizeRepository;
 
-    public ProductService(ProductRepository productRepository, BrandRepository brandRepository, CategoryRepository categoryRepository) {
+    public ProductService(ProductRepository productRepository, BrandRepository brandRepository, CategoryRepository categoryRepository, ProductSizeRepository productSizeRepository) {
         this.productRepository = productRepository;
         this.brandRepository = brandRepository;
         this.categoryRepository = categoryRepository;
+        this.productSizeRepository = productSizeRepository;
     }
 
     @Transactional
@@ -97,4 +100,15 @@ public class ProductService {
         }
         return true;
     }
+
+    public void updateSizeQuantity(Product product, Long sizeId, int newQuantity) {
+        for (ProductSize size : product.getSizes()) {
+            if (size.getId().equals(sizeId)) {
+                size.setQuantity(size.getQuantity() + newQuantity);
+                productSizeRepository.save(size);
+                break;
+            }
+        }
+    }
+
 }
