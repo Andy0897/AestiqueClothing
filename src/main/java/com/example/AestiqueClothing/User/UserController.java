@@ -36,10 +36,10 @@ public class UserController {
         List<Product> menProducts = ((List<Product>) productRepository.findAll()).stream().filter(product -> product.getGender().equals("Мъжки")).toList();
         List<Product> womenProducts = ((List<Product>) productRepository.findAll()).stream().filter(product -> product.getGender().equals("Дамски")).toList();
         if(menProducts.size() > 3) {
-            menProducts = menProducts.subList(0, 2);
+            menProducts = menProducts.subList(0, 3);
         }
         if(womenProducts.size() > 3) {
-            womenProducts = womenProducts.subList(0, 2);
+            womenProducts = womenProducts.subList(0, 3);
         }
         model.addAttribute("menProducts", menProducts);
         model.addAttribute("womenProducts", womenProducts);

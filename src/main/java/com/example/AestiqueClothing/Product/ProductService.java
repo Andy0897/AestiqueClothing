@@ -35,7 +35,6 @@ public class ProductService {
         List<byte[]> imageList = new ArrayList<>();
         boolean nullImages = true;
         boolean invalidSizes = false;
-        System.out.println(sizes.size() + " " + quantities.size());
         try {
             for (MultipartFile file : images) {
                 if (!file.isEmpty()) {
@@ -58,10 +57,8 @@ public class ProductService {
             productSize.setProduct(product);
             if(checkIfSizeValid(productSize)){
                 product.addSize(productSize);
-                System.out.println("Valid");
             }
             else {
-                System.out.println("Invalid");
                 invalidSizes = true;
                 break;
             }
